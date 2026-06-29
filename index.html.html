@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imen Ben Gadha — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #050505;
+    --deep: #0a0a0a;
+    --surface: #111111;
+    --surface2: #181818;
+    --border: rgba(255,255,255,0.06);
+    --border-bright: rgba(255,255,255,0.15);
+    --cyan: #00f5d4;
+    --cyan-dim: rgba(0,245,212,0.08);
+    --white: #f0f0f0;
+    --muted: #666;
+    --muted2: #444;
+    --font: 'Space Grotesk', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,245,212,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,212,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .cursor { width:6px;height:6px;background:var(--cyan);border-radius:50%;position:fixed;pointer-events:none;z-index:9999; }
+  .cursor-ring { width:32px;height:32px;border:1px solid rgba(0,245,212,0.4);border-radius:50%;position:fixed;pointer-events:none;z-index:9998; }
+
+  /* NAV */
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    padding: 1.25rem 3rem;
+    display: flex; justify-content:space-between; align-items:center;
+    border-bottom: 1px solid var(--border);
+    background: rgba(5,5,5,0.88);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo { font-family:var(--mono);font-size:13px;color:var(--cyan);letter-spacing:0.1em; }
+  .nav-links { display:flex;gap:2rem;list-style:none; }
+  .nav-links a { font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:0.12em;text-transform:uppercase;transition:color 0.2s; }
+  .nav-links a:hover { color:var(--cyan); }
+  .nav-right { display:flex;align-items:center;gap:1rem; }
+  .lang-toggle {
+    font-family:var(--mono);font-size:10px;letter-spacing:0.15em;
+    background:transparent;border:1px solid var(--border-bright);color:var(--muted);
+    padding:5px 12px;cursor:pointer;transition:all 0.2s;
+  }
+  .lang-toggle:hover { border-color:var(--cyan);color:var(--cyan); }
+  .nav-badge { font-family:var(--mono);font-size:10px;color:var(--cyan);background:var(--cyan-dim);border:1px solid rgba(0,245,212,0.25);padding:4px 10px;letter-spacing:0.1em; }
+
+  /* ALTERNANCE BANNER */
+  .alt-banner {
+    position: relative; z-index:1;
+    background: rgba(0,245,212,0.05);
+    border-bottom: 1px solid rgba(0,245,212,0.2);
+    padding: 14px 3rem;
+    margin-top: 67px;
+    text-align:center;
+  }
+  .alt-banner p { font-family:var(--mono);font-size:12px;color:rgba(255,255,255,0.5); }
+  .alt-banner strong { font-size:15px;font-weight:700;color:var(--cyan);letter-spacing:0.05em; }
+
+  /* HERO */
+  .hero { min-height:calc(100vh - 67px);display:flex;align-items:center;padding:0 3rem;position:relative;z-index:1; }
+  .hero-inner { max-width:1100px;margin:0 auto;width:100%;padding-top:2rem; }
+  .hero-tag { font-family:var(--mono);font-size:11px;color:var(--cyan);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:2rem;display:flex;align-items:center;gap:12px; }
+  .hero-tag::before { content:'';display:block;width:32px;height:1px;background:var(--cyan); }
+  h1.name { font-size:clamp(3rem,8vw,7rem);font-weight:700;line-height:1;letter-spacing:-0.02em;margin-bottom:1rem; }
+  h1.name span { color:var(--cyan); }
+  .hero-sub { font-family:var(--mono);font-size:13px;color:var(--muted);margin-bottom:3rem;max-width:600px;line-height:1.9; }
+  .hero-sub strong { color:rgba(255,255,255,0.5);font-weight:400; }
+  .hero-actions { display:flex;gap:1rem;flex-wrap:wrap; }
+  .btn-primary { display:inline-flex;align-items:center;gap:8px;background:var(--cyan);color:#000;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:14px 28px;text-decoration:none;transition:opacity 0.2s; }
+  .btn-primary:hover { opacity:0.85; }
+  .btn-ghost { display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border-bright);color:var(--white);font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:14px 28px;text-decoration:none;transition:border-color 0.2s,color 0.2s; }
+  .btn-ghost:hover { border-color:var(--cyan);color:var(--cyan); }
+  .hero-stats { position:absolute;right:3rem;bottom:3rem;display:flex;flex-direction:column;gap:2rem;align-items:flex-end; }
+  .stat-num { font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--cyan);display:block; }
+  .stat-label { font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase; }
+
+  /* SECTIONS */
+  section { position:relative;z-index:1;padding:6rem 3rem;max-width:1200px;margin:0 auto; }
+  .section-tag { font-family:var(--mono);font-size:10px;color:var(--cyan);letter-spacing:0.25em;text-transform:uppercase;margin-bottom:3rem;display:flex;align-items:center;gap:16px; }
+  .section-tag::after { content:'';flex:1;height:1px;background:var(--border-bright);max-width:200px; }
+  h2.section-title { font-size:clamp(1.6rem,3vw,2.5rem);font-weight:600;margin-bottom:3rem;letter-spacing:-0.02em; }
+
+  /* ABOUT */
+  .about-grid { display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border); }
+  .about-cell { background:var(--deep);padding:2.5rem; }
+  .about-cell.wide { grid-column:1/-1; }
+  .about-label { font-family:var(--mono);font-size:10px;color:var(--cyan);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem; }
+  .about-text { font-size:14px;color:rgba(255,255,255,0.55);line-height:1.85; }
+  .about-ambition { font-size:15px;font-weight:500;color:var(--white);line-height:1.7;border-left:2px solid var(--cyan);padding-left:1.2rem; }
+
+  /* SKILLS */
+  .skills-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--border);border:1px solid var(--border); }
+  .skill-cell { background:var(--deep);padding:2rem;transition:background 0.2s; }
+  .skill-cell:hover { background:var(--surface); }
+  .skill-cell-header { display:flex;align-items:center;gap:10px;margin-bottom:1.2rem; }
+  .skill-icon { width:28px;height:28px;border:1px solid var(--cyan);display:flex;align-items:center;justify-content:center;color:var(--cyan);font-size:13px; }
+  .skill-category { font-family:var(--mono);font-size:10px;color:var(--cyan);letter-spacing:0.2em;text-transform:uppercase; }
+  .skill-list { list-style:none;display:flex;flex-wrap:wrap;gap:6px; }
+  .skill-tag { font-family:var(--mono);font-size:11px;color:rgba(255,255,255,0.6);background:var(--surface2);border:1px solid var(--border-bright);padding:4px 10px; }
+
+  /* PROJECTS SLIDER */
+  .projects-slider-wrap { position:relative; }
+  .projects-slider { display:flex;gap:1px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;border:1px solid var(--border);background:var(--border); }
+  .projects-slider::-webkit-scrollbar { display:none; }
+  .project-card { background:var(--deep);padding:2.5rem;position:relative;overflow:hidden;transition:background 0.2s;display:flex;flex-direction:column;min-width:360px;max-width:360px;scroll-snap-align:start;flex-shrink:0; }
+  .project-card::before { content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--cyan);transform:scaleX(0);transform-origin:left;transition:transform 0.3s; }
+  .project-card:hover { background:var(--surface); }
+  .project-card:hover::before { transform:scaleX(1); }
+  .project-num { font-family:var(--mono);font-size:10px;color:var(--muted2);letter-spacing:0.2em;margin-bottom:1.5rem; }
+  .project-title { font-size:1.1rem;font-weight:600;margin-bottom:0.75rem;letter-spacing:-0.01em; }
+  .project-desc { font-size:13px;color:rgba(255,255,255,0.45);line-height:1.7;margin-bottom:1.5rem;flex:1; }
+  .project-tags { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.5rem; }
+  .project-tag { font-family:var(--mono);font-size:10px;color:var(--cyan);background:var(--cyan-dim);border:1px solid rgba(0,245,212,0.2);padding:3px 8px;letter-spacing:0.1em; }
+  .project-link { font-family:var(--mono);font-size:11px;color:rgba(255,255,255,0.3);text-decoration:none;display:flex;align-items:center;gap:6px;letter-spacing:0.1em;transition:color 0.2s;border-top:1px solid var(--border);padding-top:1rem; }
+  .project-link:hover { color:var(--cyan); }
+  .project-link::after { content:'→'; }
+  .slider-nav { display:flex;gap:8px;margin-top:1rem;justify-content:flex-end; }
+  .slider-btn { background:transparent;border:1px solid var(--border-bright);color:var(--muted);width:36px;height:36px;cursor:pointer;font-size:14px;transition:all 0.2s;display:flex;align-items:center;justify-content:center; }
+  .slider-btn:hover { border-color:var(--cyan);color:var(--cyan); }
+  .slider-dots { display:flex;gap:6px;align-items:center;margin-top:1rem; }
+  .slider-dot { width:6px;height:6px;background:var(--muted2);cursor:pointer;transition:background 0.2s; }
+  .slider-dot.active { background:var(--cyan); }
+
+  /* LAN VISUAL */
+  .lan-visual { margin-top:1.5rem;border:1px solid var(--border-bright);padding:1.2rem;background:var(--surface2); }
+  .lan-visual-title { font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.8rem; }
+  .lan-diagram { display:flex;align-items:center;justify-content:space-around;gap:8px;flex-wrap:wrap; }
+  .lan-node { display:flex;flex-direction:column;align-items:center;gap:6px; }
+  .lan-box { width:52px;height:36px;border:1px solid var(--cyan);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:8px;color:var(--cyan);text-align:center;line-height:1.3; }
+  .lan-box.router { border-color:rgba(0,245,212,0.5);background:rgba(0,245,212,0.05); }
+  .lan-box.vm { border-style:dashed; }
+  .lan-lbl { font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:0.1em;text-align:center; }
+  .lan-line { width:24px;height:1px;background:var(--cyan);opacity:0.4; }
+  .lan-vline { display:flex;flex-direction:column;align-items:center;gap:2px; }
+  .lan-dot { width:4px;height:4px;background:var(--cyan);border-radius:50%;opacity:0.5; }
+
+  /* TIMELINE */
+  .timeline { position:relative;padding-left:2rem; }
+  .timeline::before { content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--cyan),transparent); }
+  .timeline-item { position:relative;padding:0 0 3rem 2.5rem; }
+  .timeline-item::before { content:'';position:absolute;left:-4.5px;top:6px;width:8px;height:8px;background:var(--black);border:1px solid var(--cyan); }
+  .timeline-date { font-family:var(--mono);font-size:10px;color:var(--cyan);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem; }
+  .timeline-title { font-size:1rem;font-weight:600;margin-bottom:0.3rem; }
+  .timeline-org { font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:0.75rem;letter-spacing:0.05em; }
+  .timeline-body { font-size:13px;color:rgba(255,255,255,0.4);line-height:1.7; }
+
+  /* CONTACT */
+  .contact-grid { display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border); }
+  .contact-cell { background:var(--deep);padding:2rem; }
+  .contact-label { font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.5rem; }
+  .contact-value { font-size:14px;color:var(--white); }
+  .contact-value a { color:var(--cyan);text-decoration:none; }
+  .contact-value a:hover { text-decoration:underline; }
+
+  /* SOCIAL LINKS */
+  .social-links { display:flex;gap:1rem;margin-top:2rem;flex-wrap:wrap; }
+  .social-btn { display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border-bright);color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:0.1em;padding:10px 18px;text-decoration:none;transition:all 0.2s; }
+  .social-btn:hover { border-color:var(--cyan);color:var(--cyan); }
+  .social-btn svg { width:14px;height:14px;fill:currentColor; }
+
+  /* FOOTER */
+  footer { border-top:1px solid var(--border);padding:2rem 3rem;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1; }
+  footer p { font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.1em; }
+
+  @keyframes scanline { 0%{transform:translateY(-100%)}100%{transform:translateY(100vh)} }
+  .scanline { position:fixed;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,245,212,0.06),transparent);pointer-events:none;z-index:50;animation:scanline 6s linear infinite; }
+  @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+  .blink { animation:blink 1s step-end infinite; }
+  .reveal { opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease; }
+  .reveal.visible { opacity:1;transform:translateY(0); }
+
+  [data-fr] { display:block; }
+  [data-en] { display:none; }
+  html[data-lang="en"] [data-fr] { display:none; }
+  html[data-lang="en"] [data-en] { display:block; }
+  .inline-fr { display:inline; }
+  .inline-en { display:none; }
+  html[data-lang="en"] .inline-fr { display:none; }
+  html[data-lang="en"] .inline-en { display:inline; }
+
+  @media (max-width:768px) {
+    nav { padding:1rem 1.5rem; }
+    .nav-links { display:none; }
+    .hero,.section,.alt-banner,footer { padding-left:1.5rem;padding-right:1.5rem; }
+    section { padding-left:1.5rem;padding-right:1.5rem; }
+    .hero-stats { right:1.5rem;bottom:1.5rem; }
+    .contact-grid,.about-grid { grid-template-columns:1fr; }
+    footer { flex-direction:column;gap:1rem;text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scanline"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">IBG<span class="blink">_</span></span>
+  <ul class="nav-links">
+    <li><a href="#about"><span class="inline-fr">À propos</span><span class="inline-en">About</span></a></li>
+    <li><a href="#skills"><span class="inline-fr">Compétences</span><span class="inline-en">Skills</span></a></li>
+    <li><a href="#projects"><span class="inline-fr">Projets</span><span class="inline-en">Projects</span></a></li>
+    <li><a href="#experience"><span class="inline-fr">Parcours</span><span class="inline-en">Journey</span></a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="lang-toggle" id="langBtn">EN</button>
+    <span class="nav-badge"><span class="inline-fr">OPEN TO WORK</span><span class="inline-en">OPEN TO WORK</span></span>
+  </div>
+</nav>
+
+<!-- ALTERNANCE BANNER -->
+<div class="alt-banner">
+  <p data-fr><strong>🎯 Recherche une ALTERNANCE</strong> (rythme 1 mois / 1 mois) en Réseaux &amp; Systèmes · ou un <strong>STAGE de 8 à 10 semaines</strong></p>
+  <p data-en><strong>🎯 Looking for an APPRENTICESHIP</strong> (1 month / 1 month rhythm) in Networks &amp; Systems · or an <strong>INTERNSHIP of 8 to 10 weeks</strong></p>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">
+      <span class="inline-fr">Étudiante B.U.T Informatique — Réseaux &amp; Cybersécurité</span>
+      <span class="inline-en">B.U.T Computer Science Student — Networks &amp; Cybersecurity</span>
+    </div>
+    <h1 class="name">IMEN<br><span>BEN GADHA</span></h1>
+    <p class="hero-sub" data-fr>
+      Spécialisation <strong>Réseaux &amp; Cybersécurité</strong> · IUT d'Aix-Marseille<br>
+      Passionnée par les réseaux, avec une ambition claire : devenir <strong>hackeuse éthique</strong>.<br>
+      Curieuse, déterminée, et toujours en quête d'apprendre.
+    </p>
+    <p class="hero-sub" data-en>
+      Specialization in <strong>Networks &amp; Cybersecurity</strong> · IUT Aix-Marseille<br>
+      Passionate about networks, with one clear ambition: becoming an <strong>ethical hacker</strong>.<br>
+      Curious, determined, and always eager to learn.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary"><span class="inline-fr">Me contacter →</span><span class="inline-en">Contact me →</span></a>
+      <a href="#projects" class="btn-ghost"><span class="inline-fr">Voir les projets</span><span class="inline-en">See projects</span></a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item" style="text-align:right">
+      <span class="stat-num">4+</span>
+      <span class="stat-label"><span class="inline-fr">Projets</span><span class="inline-en">Projects</span></span>
+    </div>
+    <div class="stat-item" style="text-align:right">
+      <span class="stat-num">3</span>
+      <span class="stat-label"><span class="inline-fr">Langues</span><span class="inline-en">Languages</span></span>
+    </div>
+    <div class="stat-item" style="text-align:right">
+      <span class="stat-num">2028</span>
+      <span class="stat-label"><span class="inline-fr">Diplôme</span><span class="inline-en">Degree</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-tag reveal"><span class="inline-fr">00 — À propos</span><span class="inline-en">00 — About</span></div>
+  <h2 class="section-title reveal"><span class="inline-fr">Qui suis-je ?</span><span class="inline-en">Who am I?</span></h2>
+  <div class="about-grid reveal">
+    <div class="about-cell wide">
+      <div class="about-label"><span class="inline-fr">Mon histoire</span><span class="inline-en">My story</span></div>
+      <p class="about-ambition" data-fr>Je suis tombée dans l'informatique un peu par hasard — aucune autre filière ne m'attirait vraiment. Et c'est là que j'ai tout découvert. En explorant les réseaux, j'ai trouvé une passion réelle, et une direction claire : devenir la meilleure dans le domaine du hacking éthique.</p>
+      <p class="about-ambition" data-en>I stumbled into computer science by chance — no other field truly appealed to me. That's where everything clicked. Exploring networks, I found a real passion and a clear direction: becoming the best in ethical hacking.</p>
+    </div>
+    <div class="about-cell">
+      <div class="about-label"><span class="inline-fr">En dehors des études</span><span class="inline-en">Outside studies</span></div>
+      <p class="about-text" data-fr>Je suis ambassadrice <strong style="color:var(--white)">Capital Filles</strong>, une association qui transmet les valeurs d'égalité, de solidarité et de sororité. J'accompagne des lycéennes dans leur orientation, je participe à des événements pour promouvoir l'égalité des chances, et je contribue à montrer que toutes les voies sont possibles, peu importe le parcours ou l'origine.<br><br>
+      Je suis aussi bénévole dans l'association <strong style="color:var(--white)">UMA</strong>, où avec un groupe d'étudiants nous développons l'application de l'association.<br><br>
+      Dans mon temps libre, j'aime lire, sortir et découvrir de nouveaux endroits.</p>
+      <p class="about-text" data-en>I am an ambassador for <strong style="color:var(--white)">Capital Filles</strong>, an association promoting equality, solidarity and sisterhood. I mentor high school girls in their career choices and participate in events to inspire young women from all backgrounds.<br><br>
+      I also volunteer with the <strong style="color:var(--white)">UMA</strong> association, where a group of students and I develop their app together.<br><br>
+      In my free time, I enjoy reading, going out and discovering new places.</p>
+    </div>
+    <div class="about-cell">
+      <div class="about-label"><span class="inline-fr">Ce que je cherche</span><span class="inline-en">What I'm looking for</span></div>
+      <p class="about-text" data-fr>L'alternance est pour moi le meilleur moyen d'apprendre dans des conditions réelles. Je cherche une entreprise qui m'accompagnera dans cette démarche de découverte et me permettra de me former concrètement.<br><br>
+      Si vous ne cherchez pas d'alternant·e, je suis également disponible pour un <strong style="color:rgba(255,255,255,0.6)">stage en entreprise</strong> qui me permettra de découvrir de nouveaux projets et d'y contribuer pleinement.<br><br>
+      Mes années à l'IUT m'ont appris que la <strong style="color:var(--cyan)">communication est la clé</strong> de tout travail en équipe — même quand ce n'est pas facile.</p>
+      <p class="about-text" data-en>An apprenticeship is the best way for me to learn in real conditions. I'm looking for a company that will support my growth and help me develop concrete skills.<br><br>
+      If you're not looking for an apprentice, I'm also available for an <strong style="color:rgba(255,255,255,0.6)">internship</strong> where I can contribute meaningfully to new projects.<br><br>
+      My years at IUT taught me that <strong style="color:var(--cyan)">communication is the key</strong> to teamwork — even when it's challenging.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-tag reveal"><span class="inline-fr">01 — Compétences</span><span class="inline-en">01 — Skills</span></div>
+  <h2 class="section-title reveal"><span class="inline-fr">Stack technique</span><span class="inline-en">Technical stack</span></h2>
+  <div class="skills-grid reveal">
+    <div class="skill-cell">
+      <div class="skill-cell-header">
+        <div class="skill-icon">⬡</div>
+        <span class="skill-category"><span class="inline-fr">Réseaux</span><span class="inline-en">Networks</span></span>
+      </div>
+      <ul class="skill-list">
+        <li class="skill-tag">TCP/IP</li>
+        <li class="skill-tag">IPv4 / VLSM</li>
+        <li class="skill-tag">OSPF</li>
+        <li class="skill-tag">RIP</li>
+        <li class="skill-tag">Routage statique</li>
+        <li class="skill-tag">Wireshark</li>
+        <li class="skill-tag">Packet Tracer</li>
+        <li class="skill-tag">ICMP / UDP / TCP</li>
+      </ul>
+    </div>
+    <div class="skill-cell">
+      <div class="skill-cell-header">
+        <div class="skill-icon">⬡</div>
+        <span class="skill-category"><span class="inline-fr">Systèmes</span><span class="inline-en">Systems</span></span>
+      </div>
+      <ul class="skill-list">
+        <li class="skill-tag">Linux Debian</li>
+        <li class="skill-tag">Windows</li>
+        <li class="skill-tag">Virtualisation</li>
+        <li class="skill-tag">Apache</li>
+        <li class="skill-tag">Nginx</li>
+        <li class="skill-tag">Thunderbird</li>
+      </ul>
+    </div>
+    <div class="skill-cell">
+      <div class="skill-cell-header">
+        <div class="skill-icon">⬡</div>
+        <span class="skill-category"><span class="inline-fr">Développement</span><span class="inline-en">Development</span></span>
+      </div>
+      <ul class="skill-list">
+        <li class="skill-tag">HTML / CSS</li>
+        <li class="skill-tag">Java / JavaFX</li>
+        <li class="skill-tag">Python</li>
+        <li class="skill-tag">Bash</li>
+        <li class="skill-tag">MySQL</li>
+        <li class="skill-tag">Git / GitHub</li>
+        <li class="skill-tag">Godot</li>
+      </ul>
+    </div>
+    <div class="skill-cell">
+      <div class="skill-cell-header">
+        <div class="skill-icon">⬡</div>
+        <span class="skill-category"><span class="inline-fr">Langues</span><span class="inline-en">Languages</span></span>
+      </div>
+      <ul class="skill-list">
+        <li class="skill-tag">Français — Courant</li>
+        <li class="skill-tag">Anglais — B1</li>
+        <li class="skill-tag">Arabe — B2</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-tag reveal"><span class="inline-fr">02 — Projets</span><span class="inline-en">02 — Projects</span></div>
+  <h2 class="section-title reveal"><span class="inline-fr">Projets académiques</span><span class="inline-en">Academic projects</span></h2>
+  <div class="projects-slider-wrap reveal">
+  <div class="projects-slider" id="projectsSlider">
+
+    <!-- LAN PROJECT - no external link, has visual -->
+    <div class="project-card">
+      <div class="project-num">PROJET — 01</div>
+      <div class="project-title"><span class="inline-fr">Mise en place d'un réseau LAN</span><span class="inline-en">LAN Network Setup</span></div>
+      <p class="project-desc" data-fr>Configuration de 3 VMs Debian pour simuler un environnement de production. Installation de services réseau (Apache/Nginx, Thunderbird), adressage IP, sous-réseaux et routage entre machines.</p>
+      <p class="project-desc" data-en>Configuration of 3 Debian VMs to simulate a production environment. Network services setup (Apache/Nginx, Thunderbird), IP addressing, subnetting and routing between machines.</p>
+      <div class="project-tags">
+        <span class="project-tag">Debian</span>
+        <span class="project-tag">Apache</span>
+        <span class="project-tag">Nginx</span>
+        <span class="project-tag">VM</span>
+        <span class="project-tag">Wireshark</span>
+      </div>
+      <!-- LAN DIAGRAM VISUAL -->
+      <div class="lan-visual">
+        <div class="lan-visual-title">ARCHITECTURE — SIMULATION LAN</div>
+        <div class="lan-diagram">
+          <div class="lan-node">
+            <div class="lan-box router">ROUTEUR<br>192.168.1.1</div>
+            <div class="lan-lbl">Gateway</div>
+          </div>
+          <div class="lan-line"></div>
+          <div class="lan-node">
+            <div class="lan-box">SWITCH<br>L2</div>
+            <div class="lan-lbl">Réseau local</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:center">
+            <div class="lan-dot"></div><div class="lan-dot"></div><div class="lan-dot"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div class="lan-node" style="flex-direction:row;gap:6px">
+              <div class="lan-box vm">VM1<br>Apache</div>
+              <div class="lan-lbl" style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7px">.10</div>
+            </div>
+            <div class="lan-node" style="flex-direction:row;gap:6px">
+              <div class="lan-box vm">VM2<br>Nginx</div>
+              <div class="lan-lbl" style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7px">.11</div>
+            </div>
+            <div class="lan-node" style="flex-direction:row;gap:6px">
+              <div class="lan-box vm">VM3<br>Mail</div>
+              <div class="lan-lbl" style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:7px">.12</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SITE WEB -->
+    <div class="project-card">
+      <div class="project-num">PROJET — 02</div>
+      <div class="project-title"><span class="inline-fr">Site web — HTML / CSS</span><span class="inline-en">Website — HTML / CSS</span></div>
+      <p class="project-desc" data-fr>Développement d'un site web statique complet sur le thème de la Mode. Conception responsive avec tests multi-navigateurs. Projet réalisé à l'IUT Aix-Marseille.</p>
+      <p class="project-desc" data-en>Full static website on the theme of Fashion. Responsive design with cross-browser testing. Project completed at IUT Aix-Marseille.</p>
+      <div class="project-tags">
+        <span class="project-tag">HTML</span>
+        <span class="project-tag">CSS</span>
+        <span class="project-tag">Responsive</span>
+        <span class="project-tag">Mode/Fashion</span>
+      </div>
+      <a href="https://github.com/Imen-Bengadha20242027/sites-web-sur-la-Mode" target="_blank" class="project-link">GitHub →</a>
+    </div>
+
+    <!-- JEU GODOT -->
+    <div class="project-card">
+      <div class="project-num">PROJET — 03</div>
+      <div class="project-title">Nox Anubis — <span class="inline-fr">Jeu 2D</span><span class="inline-en">2D Game</span></div>
+      <p class="project-desc" data-fr>Jeu vidéo 2D créé sous Godot Engine. Création des maps, mécaniques de jeu, logique événementielle et gestion des scènes. Disponible à jouer en ligne sur itch.io.</p>
+      <p class="project-desc" data-en>2D video game built with Godot Engine. Custom maps, game mechanics, event logic and scene management. Playable online on itch.io.</p>
+      <div class="project-tags">
+        <span class="project-tag">Godot</span>
+        <span class="project-tag">GDScript</span>
+        <span class="project-tag">2D</span>
+        <span class="project-tag">itch.io</span>
+      </div>
+      <a href="https://tsnm28.itch.io/noxanubis" target="_blank" class="project-link"><span class="inline-fr">Jouer sur itch.io</span><span class="inline-en">Play on itch.io</span></a>
+    </div>
+
+    <!-- SUPER BOMBERMAN -->
+    <div class="project-card">
+      <div class="project-num">PROJET — 04</div>
+      <div class="project-title">Super Bomberman — Java</div>
+      <p class="project-desc" data-fr>Développement d'un jeu de type Bomberman en Java / JavaFX. Application des principes de programmation orientée objet, gestion des événements et de l'interface graphique.</p>
+      <p class="project-desc" data-en>Bomberman-style game developed in Java / JavaFX. Object-oriented programming principles, event handling and graphical interface management.</p>
+      <div class="project-tags">
+        <span class="project-tag">Java</span>
+        <span class="project-tag">JavaFX</span>
+        <span class="project-tag">POO</span>
+        <span class="project-tag">GitHub</span>
+      </div>
+      <a href="https://github.com/MatisROMBI/SuperBomberman" target="_blank" class="project-link">GitHub →</a>
+    </div>
+
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-top:1rem;">
+    <div class="slider-dots" id="sliderDots">
+      <div class="slider-dot active" data-index="0"></div>
+      <div class="slider-dot" data-index="1"></div>
+      <div class="slider-dot" data-index="2"></div>
+      <div class="slider-dot" data-index="3"></div>
+    </div>
+    <div class="slider-nav">
+      <button class="slider-btn" id="slidePrev">&#8592;</button>
+      <button class="slider-btn" id="slideNext">&#8594;</button>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- PARCOURS -->
+<section id="experience">
+  <div class="section-tag reveal"><span class="inline-fr">03 — Parcours</span><span class="inline-en">03 — Journey</span></div>
+  <h2 class="section-title reveal"><span class="inline-fr">Formation &amp; Engagements</span><span class="inline-en">Education &amp; Commitments</span></h2>
+  <div class="timeline reveal">
+
+    <div class="timeline-item">
+      <div class="timeline-date">2025 → 2028</div>
+      <div class="timeline-title">B.U.T Informatique — <span class="inline-fr">2ème année</span><span class="inline-en">2nd year</span></div>
+      <div class="timeline-org">IUT d'Aix-Marseille, Aix-en-Provence · <span class="inline-fr">Option</span><span class="inline-en">Specialization</span> Réseaux &amp; Cybersécurité</div>
+      <p class="timeline-body" data-fr>Formation en cours avec spécialisation en réseaux, systèmes et cybersécurité.</p>
+      <p class="timeline-body" data-en>Ongoing degree with specialization in networks, systems and cybersecurity.</p>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2024 - <span class="inline-fr">présent</span><span class="inline-en">present</span></div>
+      <div class="timeline-title"><span class="inline-fr">Ambassadrice</span><span class="inline-en">Ambassador</span> — Capital Filles</div>
+      <div class="timeline-org">Association Capital Filles</div>
+      <p class="timeline-body" data-fr>Transmission des valeurs d'égalité, de solidarité et de sororité. Accompagnement et mentorat de lycéennes dans leur orientation. Participation à des événements pour promouvoir l'égalité des chances et inspirer les jeunes femmes issues de tous horizons.</p>
+      <p class="timeline-body" data-en>Sharing values of equality, solidarity and sisterhood. Mentoring high school girls in their studies and career choices. Participating in events to promote equal opportunities and inspire young women from all backgrounds.</p>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2024 - <span class="inline-fr">présent</span><span class="inline-en">present</span></div>
+      <div class="timeline-title"><span class="inline-fr">Bénévole développeuse</span><span class="inline-en">Volunteer developer</span> — UMA</div>
+      <div class="timeline-org">Association UMA</div>
+      <p class="timeline-body" data-fr>Développement en groupe de l'application mobile de l'association UMA, en collaboration avec d'autres étudiants.</p>
+      <p class="timeline-body" data-en>Group development of the UMA association's mobile app, in collaboration with fellow students.</p>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2024</div>
+      <div class="timeline-title">Baccalauréat STI2D — <span class="inline-fr">Obtenu</span><span class="inline-en">Obtained</span></div>
+      <div class="timeline-org"><span class="inline-fr">Option Architecture &amp; Construction Numérique</span><span class="inline-en">Digital Architecture &amp; Construction option</span></div>
+      <p class="timeline-body" data-fr>Baccalauréat obtenu avec spécialisation en sciences et technologies industrielles.</p>
+      <p class="timeline-body" data-en>Baccalaureate obtained with a specialization in industrial science and technology.</p>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">2024</div>
+      <div class="timeline-title"><span class="inline-fr">Formation Anglais</span><span class="inline-en">English Course</span></div>
+      <div class="timeline-org">Luc Labarille</div>
+      <p class="timeline-body" data-fr>Renforcement des compétences en anglais oral et écrit.</p>
+      <p class="timeline-body" data-en>Strengthening oral and written English skills.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-tag reveal"><span class="inline-fr">04 — Contact</span><span class="inline-en">04 — Contact</span></div>
+  <h2 class="section-title reveal"><span class="inline-fr">Rentrons en contact</span><span class="inline-en">Let's connect</span></h2>
+  <div class="contact-grid reveal">
+    <div class="contact-cell">
+      <div class="contact-label">Email</div>
+      <div class="contact-value"><a href="mailto:imen.bengadha0116@gmail.com">imen.bengadha0116@gmail.com</a></div>
+    </div>
+    <div class="contact-cell">
+      <div class="contact-label"><span class="inline-fr">Localisation</span><span class="inline-en">Location</span></div>
+      <div class="contact-value">Paris · Marseille · Aix-en-Provence</div>
+    </div>
+  </div>
+  <div class="social-links reveal">
+    <a href="https://www.linkedin.com/in/imen-ben-gadha-9084342b3/" target="_blank" class="social-btn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      LinkedIn
+    </a>
+    <a href="https://github.com/Imen-Ben-gadha" target="_blank" class="social-btn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      GitHub
+    </a>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Imen Ben Gadha</p>
+  <p data-fr>Disponible pour alternance ou stage — Réseaux &amp; Systèmes</p>
+  <p data-en>Available for apprenticeship or internship — Networks &amp; Systems</p>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    cursor.style.left=mx-3+'px';cursor.style.top=my-3+'px';
+  });
+  (function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx-16+'px';ring.style.top=ry-16+'px';requestAnimationFrame(animRing);})();
+
+  // Lang toggle
+  const html=document.documentElement;
+  const langBtn=document.getElementById('langBtn');
+  langBtn.addEventListener('click',()=>{
+    const isEn=html.getAttribute('data-lang')==='en';
+    html.setAttribute('data-lang',isEn?'fr':'en');
+    langBtn.textContent=isEn?'EN':'FR';
+  });
+
+  // Slider
+  const slider=document.getElementById('projectsSlider');
+  const dots=document.querySelectorAll('.slider-dot');
+  const cardW=()=>slider.querySelector('.project-card').offsetWidth+1;
+  function slideTo(i){slider.scrollTo({left:i*cardW(),behavior:'smooth'});}
+  document.getElementById('slidePrev').addEventListener('click',()=>{
+    const i=Math.max(0,Math.round(slider.scrollLeft/cardW())-1);slideTo(i);
+  });
+  document.getElementById('slideNext').addEventListener('click',()=>{
+    const total=slider.querySelectorAll('.project-card').length;
+    const i=Math.min(total-1,Math.round(slider.scrollLeft/cardW())+1);slideTo(i);
+  });
+  dots.forEach(d=>d.addEventListener('click',()=>slideTo(+d.dataset.index)));
+  slider.addEventListener('scroll',()=>{
+    const i=Math.round(slider.scrollLeft/cardW());
+    dots.forEach((d,idx)=>d.classList.toggle('active',idx===i));
+  });
+
+  // Scroll reveal
+  const reveals=document.querySelectorAll('.reveal');
+  const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.1});
+  reveals.forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
